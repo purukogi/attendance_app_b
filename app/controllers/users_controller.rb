@@ -4,12 +4,13 @@ class UsersController < ApplicationController
   before_action :correct_user, only: [:edit, :update]
   before_action :admin_user, only: [:destroy, :edit_basic_info, :update_basic_info]
   before_action :set_one_month, only: :show
-  
+
   def index
     @users = User.paginate(page: params[:page])
   end
-  
+
   def show
+    @worked_sum = @attendances.where.not(started_at: nil).count
   end
 
   def new
@@ -38,13 +39,13 @@ class UsersController < ApplicationController
       render :edit      
     end
   end
-  
+
   def destroy
     @user.destroy
     flash[:success] = "#{@user.name}のデータを削除しました。"
     redirect_to users_url
   end
-  
+
   def edit_basic_info
   end
 
@@ -62,7 +63,7 @@ class UsersController < ApplicationController
     def user_params
       params.require(:user).permit(:name, :email, :department, :password, :password_confirmation)
     end
-    
+
     def basic_info_params
       params.require(:user).permit(:department, :basic_time, :work_time)
     end
@@ -82,12 +83,12 @@ class UsersController < ApplicationController
         redirect_to login_url
       end
     end
-    
+
     # アクセスしたユーザーが現在ログインしているユーザーか確認します。
     def correct_user
       redirect_to(root_url) unless current_user?(@user)
     end
-    
+
     # システム管理権限所有かどうか判定します。
     def admin_user
       redirect_to root_url unless current_user.admin?
