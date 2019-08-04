@@ -54,7 +54,16 @@
       <% @attendances.each do |day| %>
         <tr>
           <td><%= l(day.worked_on, format: :short) %></td><!-- 日付 -->
-          <td><%= $days_of_the_week[day.worked_on.wday] %></td><!-- 曜日 -->
+          <td>
+            <% if day.worked_on.wday == 0 %>
+              <font color="red">日</font>
+            <% elsif day.worked_on.wday == 6 %>
+              <font color="blue">土</font>
+            <% else %>
+              <%= $days_of_the_week[day.worked_on.wday] %>
+            <% end %>
+          </td><!-- 曜日 -->
+          
           <td><%= l(day.started_at, format: :time2) if day.started_at.present? %></td><!-- 出社の時 -->
           <td><%= l(day.started_at, format: :time3) if day.started_at.present? %></td><!-- 出社の分 -->
           <td><!-- 出退勤用ボタン -->
