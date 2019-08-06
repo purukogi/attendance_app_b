@@ -4,12 +4,14 @@ class ApplicationController < ActionController::Base
 
   $days_of_the_week = %w{日 月 火 水 木 金 土}
 
-  # beforフィルター
+  # beforeフィルター
 
   # paramsハッシュからユーザーを取得します。
   def set_user
     @user = User.find(params[:id])
   end
+  
+
 
   # ログイン済みのユーザーか確認します。
   def logged_in_user
@@ -22,6 +24,7 @@ class ApplicationController < ActionController::Base
 
   # アクセスしたユーザーが現在ログインしているユーザーか確認します。
   def correct_user
+    @user = User.find(params[:id])
     redirect_to(root_url) unless current_user?(@user)
   end
 
