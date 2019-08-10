@@ -32,16 +32,18 @@
       <tr>
         <th rowspan="2">日付</th>
         <th rowspan="2">曜日</th>
-        <th colspan="3">出社</th>
+        <th></th>
+        <th colspan="2">出社</th>
         <th colspan="2">退社</th>
         <th rowspan="2">在社時間</th>
         <th rowspan="2">備考</th>
       </tr>
       
       <tr>
+        <th></th>
         <th>時</th>
         <th>分</th>
-        <th></th>
+        
         <th>時</th>
         <th>分</th>
      
@@ -64,13 +66,14 @@
             <% end %>
           </td><!-- 曜日 -->
           
-          <td><%= l(day.started_at, format: :time2) if day.started_at.present? %></td><!-- 出社の時 -->
-          <td><%= l(day.started_at, format: :time3) if day.started_at.present? %></td><!-- 出社の分 -->
           <td><!-- 出退勤用ボタン -->
             <% if btn_text = attendance_state(day) %>
               <%= link_to "#{btn_text}", user_attendance_path(@user, day), method: :patch, class: "btn btn-primary btn-attendance" %>
             <% end %>
           </td>
+          <td><%= l(day.started_at, format: :time2) if day.started_at.present? %></td><!-- 出社の時 -->
+          <td><%= l(day.started_at, format: :time3) if day.started_at.present? %></td><!-- 出社の分 -->
+        
          
           <td><%= l(day.finished_at, format: :time2) if day.finished_at.present? %></td><!-- 退社の時 -->
           <td><%= l(day.finished_at, format: :time3) if day.finished_at.present? %></td><!-- 退社の分 -->
