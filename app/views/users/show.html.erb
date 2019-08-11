@@ -1,5 +1,5 @@
-<!--  -->
 <% provide(:title, @user.name) %>
+
 <div>
   <table class="table table-bordered table-condensed user-table">
     <tr>
@@ -76,7 +76,9 @@
         
          
           <td><%= l(day.finished_at, format: :time2) if day.finished_at.present? %></td><!-- 退社の時 -->
-          <td><%= l(day.finished_at, format: :time3) if day.finished_at.present? %></td><!-- 退社の分 -->
+          <td>
+            <%= l(day.finished_at, format: :time3) if day.finished_at.present? %>
+          </td><!-- 退社の分 -->
         
           <td>
             <% if day.started_at.present? && day.finished_at.present? %>
