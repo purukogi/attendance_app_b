@@ -1,4 +1,6 @@
 class AttendancesController < ApplicationController
+  
+  include AttendancesHelper
   before_action :set_user, only: [:edit_one_month, :update_one_month]
   before_action :logged_in_user, only: [:update, :edit_one_month, :update_one_month]
   before_action :admin_or_correct_user, only: [:edit_one_month, :update_one_month]
@@ -33,25 +35,17 @@ class AttendancesController < ApplicationController
   
   def update_one_month
     @user = User.find(params[:id])
-    attendances_params.each do |id, item|
-      attendance = Attendance.find(id)
-      attendance.update_attributes(item)
-        if item[:started_at].blank? && item[:finished_at].blank?
-          next
-        elsif item[:started_at].blank? || item[:finished_at].blank?
-          
-          flash[:danger] = "不正な時間入力がありました、再入力してください。"
-          redirect_to attendances_edit_one_month_user_url(date: params[:date]) and return
-          
-        elsif item[:started_at] > item[:finished_at]  
-          
-          flash[:danger] = "不正な時間入力がありました、再入力してください。"
-          redirect_to attendances_edit_one_month_user_url(date: params[:date]) and return
-        end
+    if attendances_invalid?
+      attendances_params.each do |id, item|
+        attendance = Attendance.find(id)
+        attendance.update_attributes(item)
       end
-      flash[:success] = '勤怠情報を更新しました。'
+      flash[:success] = "勤怠情報を更新しました。"
       redirect_to user_path(@user, params:{first_day: params[:date]})
-    
+    else
+      flash[:danger] = "不正な時間入力がありました、再入力してください。"
+      redirect_to attendances_edit_one_month_user_url(date: params[:date])
+    end
   end
   
   private
