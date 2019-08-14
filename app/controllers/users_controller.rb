@@ -29,8 +29,7 @@ class UsersController < ApplicationController
     end
   end
 
-  def edit
-  end
+  
 
   def update
     if @user.update_attributes(user_params)
@@ -44,33 +43,37 @@ class UsersController < ApplicationController
   def destroy # ユーザーを削除する際の処理
     @user.destroy
     flash[:success] = "#{@user.name}のデータを削除しました。"
-    redirect_to users_url
+    redirect_to @user
   end
 
   def edit_basic_info
+    
+  end
+  
+  
+  def edit
+    
+  end
+ 
+  def update_basic_info
+    @user = User.all
+    @user = works_params.each do |id, work_param|
+     user = User.find(params[:id])
+     user.update_attributes(work_param) 
+     user
+    end 
+    flash[:success] = "基本情報を更新しました。"  
+    redirect_to users_url 
   end
 
-  def update_basic_info #基本勤怠情報を更新した際の処理
     
-    @alluser = User.all #全てのユーザー
-    
-   
-    if @alluser.update_attributes(basic_info_params)
-      flash[:success] = "基本情報を更新しました。"
-      redirect_to @user
-    else
-      flash[:danger] = "基本情報の更新は失敗しました。<br>" + @user.errors.full_messages.join("<br>")
-    end
-    redirect_to users_url
-  end
-
   private
 
     def user_params
       params.require(:user).permit(:name, :email, :department, :password, :password_confirmation)
     end
 
-    def basic_info_params
-      params.require(:user).permit(:basic_time, :work_time)
+    def works_params
+      params.permit(user: [:id, :basic_time, :work_time])[:user]
     end
 end
