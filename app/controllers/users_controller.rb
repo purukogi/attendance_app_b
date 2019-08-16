@@ -56,9 +56,8 @@ class UsersController < ApplicationController
   end
  
   def update_basic_info
-    top = User.first
-    final = User.last
-    User.where(:id => top..final).update(works_params)
+    
+    User.where(:id => 1..999).update(works_params)
  
   
     flash[:success] = "基本情報を更新しました。"  
