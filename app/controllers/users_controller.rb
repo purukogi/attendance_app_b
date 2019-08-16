@@ -56,24 +56,23 @@ class UsersController < ApplicationController
   end
  
   def update_basic_info
-    @user = User.all
-    @user = works_params.each do |id, work_param|
-     user = User.find(params[:id])
-     user.update_attributes(work_param) 
-     user
-    end 
+    top = User.first
+    final = User.last
+    User.where(:id => top..final).update(works_params)
+ 
+  
     flash[:success] = "基本情報を更新しました。"  
-    redirect_to users_url 
+    redirect_to users_url
   end
-
+  
     
-  private
+  private # strongparameterの設定
 
     def user_params
       params.require(:user).permit(:name, :email, :department, :password, :password_confirmation)
     end
 
     def works_params
-      params.permit(user: [:id, :basic_time, :work_time])[:user]
+      params.require(:user).permit(:id, :basic_time, :work_time)
     end
 end
