@@ -56,11 +56,13 @@ class UsersController < ApplicationController
   end
  
   def update_basic_info
-    
-    User.where(:id => 1..999).update(works_params)
- 
-  
-    flash[:success] = "基本情報を更新しました。"  
+    unless @user.update(works_params)
+      flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました。"
+      redirect_to users_url and return
+    else
+      User.where(:id => 1..999).update(works_params)
+      flash[:success] = "基本情報を更新しました。"  
+    end
     redirect_to users_url
   end
   
