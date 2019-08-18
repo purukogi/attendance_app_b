@@ -1,16 +1,16 @@
 <% provide(:title, 'All Users') %>
 <h1>
-  <% if params[:name] = present? %>
-  あいうえお
+  <% if params[:user].present? && params[:user][:name] %>
+  検索結果
   <% else %>
-  かきくけこ
+  ユーザー一覧
   <% end %>
   </h1>
 
 <div class="name_form"> 
 <%= form_with model: User.new, method: :get, local: true do |form| %>
 <%= form.label "ユーザー名検索" %><br>
-<%= form.text_field :name, placeholder: "キーワードを入力…" %>
+<%= form.text_field :name, id: :name, placeholder: "キーワードを入力…" %>
 <%= form.submit "検索", {class: "search_name"} %>
 <% end %>
 
