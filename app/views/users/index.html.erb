@@ -1,5 +1,14 @@
 <% provide(:title, 'All Users') %>
-<h1>ユーザー一覧</h1>
+<h1>全てのユーザー</h1>
+
+<div class="name_form"> 
+<%= form_tag(users_path, method: "get") do %>
+<%= label_tag "ユーザー名検索" %><br>
+<%= text_field_tag "name", "キーワードを入力…", {class: "form_name"} %>
+<%= submit_tag "検索", {class: "search_name"} %>
+<% end %>
+</div>
+
 
 <div class="col-md-10 col-md-offset-1">
   <%= will_paginate %>
