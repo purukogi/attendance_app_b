@@ -2,16 +2,19 @@
 <h1>全てのユーザー</h1>
 
 <div class="name_form"> 
-<%= form_tag(users_path, method: "get") do %>
-<%= label_tag "ユーザー名検索" %><br>
-<%= text_field_tag "name", "キーワードを入力…", {class: "form_name"} %>
-<%= submit_tag "検索", {class: "search_name"} %>
+<%= form_with model: User.new, method: :get, local: true do |form| %>
+<%= form.label "ユーザー名検索" %><br>
+<%= form.text_field :name %>
+<%= form.submit "検索", {class: "search_name"} %>
 <% end %>
 </div>
 
 
 <div class="col-md-10 col-md-offset-1">
-  <%= will_paginate %>
+  
+  
+  
+  
   <table class="table table-condensed table-hover" id="table-users">
     <thead>
       <tr>
@@ -34,5 +37,7 @@
       </tr>
     <% end %>
   </table>
-  <%= will_paginate %>
+  
+  
+  
 </div>
