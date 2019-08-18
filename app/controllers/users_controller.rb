@@ -7,7 +7,6 @@ class UsersController < ApplicationController
 
   def index
     @users = query
-    
   end
   
  
