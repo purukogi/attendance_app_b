@@ -73,7 +73,7 @@ class UsersController < ApplicationController
       redirect_to users_url and return
     else
       User.where(:id => 1..999).update(works_params)
-      flash[:success] = "基本情報を更新しました。"  
+      flash[:success] = "全ユーザーの基本情報を更新しました。"  
     end
     redirect_to users_url
   end
